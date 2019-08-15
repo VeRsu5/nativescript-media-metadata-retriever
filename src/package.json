@@ -1,0 +1,59 @@
+{
+	"name": "nativescript-media-metadata-retriever",
+	"version": "2.0.0",
+	"description": "Plugin to retrieve the metadata of media files. Based on android's MediaMetadataRetriever class",
+	"main": "media-metadata-retriever",
+	"typings": "index.d.ts",
+	"nativescript": {
+		"platforms": {
+			"android": "6.0.0",
+			"ios": "6.0.1"
+		}
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/VeRsu5/nativescript-media-metadata-retriever.git"
+	},
+	"scripts": {
+		"tsc": "npm i && tsc",
+		"build": "npm run tsc && npm run build.native",
+		"build.native": "node scripts/build-native.js",
+		"postclone": "npm i && node scripts/postclone.js",
+		"tslint": "cd .. && tslint \"**/*.ts\" --config tslint.json --exclude \"**/node_modules/**\"",
+		"ci.tslint": "npm i && tslint '**/*.ts' --config '../tslint.json' --exclude '**/node_modules/**' --exclude '**/platforms/**'",
+		"prepack": "npm run build.native",
+		"demo-angular.ios": "npm run tsc && cd ../demo-angular && tns run ios --emulator",
+		"demo-angular.android": "npm run tsc && cd ../demo-angular && tns run android",
+		"demo-angular.android.emulator": "npm run tsc && cd ../demo-angular && tns run android --emulator",
+		"demo-angular.reset": "cd ../demo-angular && npx rimraf -- hooks node_modules platforms package-lock.json",
+		"plugin.prepare": "npm run build undefined && cd ../demo-angular && tns plugin remove nativescript-media-metadata-retriever && tns plugin add ../src",
+		"clean": "npm run demo-angular.reset && npx rimraf -- node_modules package-lock.json && npm i"
+	},
+	"keywords": [
+		"NativeScript",
+		"JavaScript",
+		"Android",
+		"iOS"
+	],
+	"author": {
+		"name": "Vedant Mistry",
+		"email": "vedantbmistry1309@gmail.com"
+	},
+	"bugs": {
+		"url": "https://github.com/VeRsu5/nativescript-media-metadata-retriever/issues"
+	},
+	"license": "Apache-2.0",
+	"homepage": "https://github.com/VeRsu5/nativescript-media-metadata-retriever",
+	"readmeFilename": "README.md",
+	"devDependencies": {
+		"tns-core-modules": "^6.0.0",
+		"tns-platform-declarations": "^6.0.0",
+		"typescript": "~3.4.5",
+		"prompt": "^1.0.0",
+		"rimraf": "^2.6.3",
+		"tslint": "^5.12.1",
+		"semver": "^5.6.0"
+	},
+	"dependencies": {},
+	"bootstrapper": "nativescript-plugin-seed"
+}
