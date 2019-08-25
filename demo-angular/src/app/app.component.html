@@ -1,6 +1,10 @@
 
-<GridLayout class="page" rows="auto, auto">
+<GridLayout class="page" rows="auto, auto, auto, auto">
     <Button row="0" class="btn btn-primary btn-active" id="button" text="Get Metadata!" (tap)="getMetadata()" ></Button>
     <TextView row="1" text="{{allMetadata}}" left="10" top="10"></TextView>
-    <Image [src]="image" stretch="none" class="img-rounded p-l-15 p-r-15 p-t-15"></Image>
+    <GridLayout *ngIf="dataIsLoading" row="2" rows="auto, auto">
+        <Label row="1" text="Frame index (micro second) : "></Label>
+        <TextField row="2" class="input input-border"   keyboardType="number" autocorrect="false" hint="Enter index" (returnPress)="getFrameAtIndex($event)"></TextField>
+    </GridLayout>
+    <Image row="3" id="albumArt" [src]="image" width="200" height="200" stretch="none" class="img-rounded p-l-15 p-r-15 p-t-15"></Image>
 </GridLayout>

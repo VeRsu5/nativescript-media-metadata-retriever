@@ -1,10 +1,9 @@
-import { Common, resolveFilePath } from './media-metadata-retriever.common';
-import * as fs                     from 'tns-core-modules/file-system';
-import { isString }                from 'tns-core-modules/utils/types';
+import { Common, Pixels, resolveFilePath } from './media-metadata-retriever.common';
+import * as fs                             from 'tns-core-modules/file-system';
+import { isString }                        from 'tns-core-modules/utils/types';
 
 export class MediaMetadataRetriever extends Common {
     private _mediaMetadataRetriever: android.media.MediaMetadataRetriever;
-    private _imageFile: java.io.File;
 
     public static readonly _METADATA_KEY_ALBUM = android.media.MediaMetadataRetriever.METADATA_KEY_ALBUM;
     public static readonly _METADATA_KEY_ALBUMARTIST = android.media.MediaMetadataRetriever.METADATA_KEY_ALBUMARTIST;
@@ -106,11 +105,50 @@ export class MediaMetadataRetriever extends Common {
         });
     }
 
+    public getFrameAtIndex(frameIndex: number): Promise<android.graphics.Bitmap> {
+        return new Promise<android.graphics.Bitmap>((resolve, reject) => {
+            try {
+                let bitmap = this._mediaMetadataRetriever.getFrameAtTime(frameIndex, android.media.MediaMetadataRetriever.OPTION_CLOSEST);
+                resolve(bitmap);
+                console.log("[nativescript-media-metadata-retriever]: Bitmap generated at index ", frameIndex);
+            } catch (ex) {
+                console.log("[nativescript-media-metadata-retriever]: Failed to generate bitmap...");
+                reject(ex);
+            }
+        });
+    }
+
+    public getFramePixelsAtIndex(frameIndex: number): Promise<Pixels> {
+        return new Promise<Pixels>((resolve, reject) => {
+            try {
+                let bitmap = this._mediaMetadataRetriever.getFrameAtTime(frameIndex, android.media.MediaMetadataRetriever.OPTION_CLOSEST);
+                const width = bitmap.getWidth();
+                const height = bitmap.getHeight();
+                let pixels = Array.create("int", width * height);
+                bitmap.getPixels(pixels, 0, width, 0, 0, width, height);
+                let result = [];
+                for (let i = 0; i < width; i++) {
+                    for (let j = 0; j < height; j++) {
+                        const pixel = pixels[i + j];
+                        result.push((pixel >> 16) & 0xff);
+                        result.push((pixel >> 8) & 0xff);
+                        result.push((pixel) & 0xff);
+                    }
+                }
+                resolve({pixels: result, width: width, height: height});
+                console.log("[nativescript-media-metadata-retriever]: Pixels generated at the index ", frameIndex);
+            } catch (ex) {
+                console.log("[nativescript-media-metadata-retriever]: Failed to generate pixels of bitmap...");
+                reject(ex);
+            }
+        });
+    }
+
     public setDataSource(path: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             try {
                 if (path) {
-                    console.log(resolveFilePath(path));
+                    console.log(`[nativescript-media-metadata-retriever]: ${resolveFilePath(path)}`);
                     this._mediaMetadataRetriever.setDataSource(resolveFilePath(path));
                     console.log("[nativescript-media-metadata-retriever]: Data source has been set...");
                     resolve();

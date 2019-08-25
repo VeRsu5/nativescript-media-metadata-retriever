@@ -1,4 +1,4 @@
-import { Common } from './media-metadata-retriever.common';
+import { Common, Pixels } from './media-metadata-retriever.common';
 
 export declare class MediaMetadataRetriever extends Common {
     // define your typings manually
@@ -50,6 +50,21 @@ export declare class MediaMetadataRetriever extends Common {
      * @returns {Promise<any>} - The Bitmap of the embedded picture from the file
      */
     getEmbeddedPicture(): Promise<any>;
+
+    /**
+     * Get the Bitmap object of the video at fram index
+     * @param frameIndex - Frame index of video
+     * @returns {Promise<any>} - The Bitmap
+     */
+    getFrameAtIndex(frameIndex: number): Promise<any>;
+
+    /**
+     * Get the Pixels object of the video at frame index
+     * @param frameIndex - Frame index of video
+     * @returns {Promise<any>} - The Pixels of bitmap
+     */
+    getFramePixelsAtIndex(frameIndex: number): Promise<Pixels>;
+
 
     /**
      * @param {path} - The media file path

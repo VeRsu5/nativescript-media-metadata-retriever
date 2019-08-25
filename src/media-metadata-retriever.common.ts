@@ -24,6 +24,12 @@ export class Utils {
   }
 }
 
+export class Pixels {
+  pixels: number[];
+  width: number;
+  height: number;
+}
+
 /**
  * Helper function to determine if string is a url.
  * @param value [string]
