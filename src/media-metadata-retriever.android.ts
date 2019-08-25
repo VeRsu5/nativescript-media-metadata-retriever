@@ -110,6 +110,7 @@ export class MediaMetadataRetriever extends Common {
         return new Promise<any>((resolve, reject) => {
             try {
                 if (path) {
+                    console.log(resolveFilePath(path));
                     this._mediaMetadataRetriever.setDataSource(resolveFilePath(path));
                     console.log("[nativescript-media-metadata-retriever]: Data source has been set...");
                     resolve();

@@ -46,7 +46,7 @@ export function isStringUrl(value: string): boolean {
  */
 export function resolveFilePath(path: string) {
   if (path) {
-    const isUrl = this.isStringUrl(path);
+    const isUrl = isStringUrl(path);
     if (isUrl === true) {
       return path;
     } else {
