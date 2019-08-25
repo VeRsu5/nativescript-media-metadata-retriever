@@ -1,0 +1,6 @@
+
+<GridLayout class="page" rows="auto, auto">
+    <Button row="0" class="btn btn-primary btn-active" id="button" text="Get Metadata!" (tap)="getMetadata()" ></Button>
+    <TextView row="1" text="{{allMetadata}}" left="10" top="10"></TextView>
+    <Image [src]="image" stretch="none" class="img-rounded p-l-15 p-r-15 p-t-15"></Image>
+</GridLayout>
